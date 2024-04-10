@@ -272,10 +272,10 @@ namespace Zadanie1
 
             StringBuilder result = new StringBuilder();
             tanks.ForEach(tank => { 
-                result.Append(tank.Name);
+                result.Append(tank.Name + "\t");
                 units.Where(unit => tank.UnitId == unit.Id).ToList().ForEach(unit => {
-                    result.Append(unit.Name);
-                    factories.Where(factory => factory.Id==unit.FactoryId).ToList().ForEach(factory => result.Append(factory.Name));
+                    result.Append(unit.Name + "\t");
+                    factories.Where(factory => factory.Id==unit.FactoryId).ToList().ForEach(factory => result.Append(factory.Name + "\n"));
                 });
             });
             return result.ToString();
