@@ -1,4 +1,7 @@
 ﻿using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using FactoryConsoleProgramm;
 
 namespace Zadanie1
 {
@@ -6,10 +9,19 @@ namespace Zadanie1
     {
         static void Main(string[] args)
         {
-            // создаём списки классов
-            var tanks = GetTanks();
-            var units = GetUnits();
-            var factories = GetFactories();
+            //var tanks = GetTanks();
+            //var units = GetUnits();
+            //var factories = GetFactories();
+
+            //WriteListToFile<Tank>("TankList.json", tanks);
+            //WriteListToFile<Unit>("UnitList.json", units);
+            //WriteListToFile<Factory>("FactoryList.json", factories);
+
+            var tanks = ReadListFromFile<Tank>("TankList");
+            var units = ReadListFromFile<Unit>("UnitList");
+            var factories = ReadListFromFile<Factory>("FactoryList");
+
+            #region Zad1
             while (true)
             {
                 // Главное меню
@@ -78,11 +90,12 @@ namespace Zadanie1
                                     Console.WriteLine("Неверный ввод");
                                     break;
                             }
-                        } catch (Exception ex)
+                        }
+                        catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                         }
-                        
+
                         break;
                     // Завершаем программу
                     case "5":
@@ -95,7 +108,7 @@ namespace Zadanie1
                 }
                 Console.ReadLine();
             }
-            
+            #endregion
         }
         public static List<Tank> GetTanks()
         {
@@ -125,6 +138,26 @@ namespace Zadanie1
                 new Factory(2, "НПЗ№2", "Второй нефтеперерабатывающий завод")
             };
         }
+
+        public static void WriteListToFile<T>(string filename, List<T> values)
+        {
+            string serializedList = JsonSerializer.Serialize(values);
+            File.WriteAllText(filename, serializedList);
+        }
+        public static List<T> ReadListFromFile<T>(string filename)
+        {
+            List<T> values = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filename));
+            return values;
+        }
+
+        public static void WriteListToConsole<T>(List<T> values)
+        {
+            if (values.Count() > 0)
+                foreach (T item in values) Console.WriteLine(item.ToString());
+            else Console.WriteLine("Список пуст");
+        }
+
+
         /// <summary>
         /// Поиск установки по названию резервуара
         /// </summary>
@@ -134,22 +167,35 @@ namespace Zadanie1
         /// <returns>искомая установка</returns>
         public static Unit FindUnit(List<Unit> units, List<Tank> tanks, string tankName)
         {
-            int? unitId = null;
-            foreach (Tank tank in tanks)
-            {
-                if (tank.Name == tankName)
-                {
-                    unitId = tank.UnitId;
-                    break;
-                }
-            }
-            if (unitId == null) throw new NullReferenceException($"Tank {tankName} dont exist");
-            foreach (Unit unit in units)
-            {
-                if (unit.Id == unitId) return unit;
-            }
-            throw new NullReferenceException($"Unit id = {unitId} dont exist");
+            #region OldCode
+            //int? unitId = null;
+            //foreach (Tank tank in tanks)
+            //{
+            //    if (tank.Name == tankName)
+            //    {
+            //        unitId = tank.UnitId;
+            //        break;
+            //    }
+            //}
+            //if (unitId == null) throw new NullReferenceException($"Tank {tankName} dont exist");
+            //foreach (Unit unit in units)
+            //{
+            //    if (unit.Id == unitId) return unit;
+            //}
+            //throw new NullReferenceException($"Unit id = {unitId} dont exist");
+            #endregion
+
+            //var findTanks = tanks.Where(item => item.Name.Equals(tankName);
+            //if (findTanks.Any())
+            //    return units.Where(item => item.Id.Equals(findTanks.ElementAt(0).UnitId)).ElementAt(0);
+            //else throw new NullReferenceException($"Unit id = {findTanks.ElementAt(0).UnitId} dont exist");
+
+            var findTanks = from tank in tanks where tank.Name == tankName select tank;
+            if (findTanks.Any())
+                return (from unit in units where unit.Id == findTanks.ElementAt(0).UnitId select unit).ElementAt(0);
+            else throw new NullReferenceException($"Unit id = {findTanks.ElementAt(0).UnitId} dont exist");
         }
+
         /// <summary>
         /// Поиск завода по установке
         /// </summary>
@@ -158,12 +204,25 @@ namespace Zadanie1
         /// <returns>искомый завод</returns>
         public static Factory FindFactory(List<Factory> factories, Unit unit)
         {
-            foreach (Factory factory in factories)
-            {
-                if (factory.Id == unit.FactoryId) return factory;
-            }
-            throw new NullReferenceException($"Factory id = {unit.FactoryId} dont exist");
+            #region  OldCode
+            //foreach (Factory factory in factories)
+            //{
+            //    if (factory.Id == unit.FactoryId) return factory;
+            //}
+            //throw new NullReferenceException($"Factory id = {unit.FactoryId} dont exist");
+            #endregion
+
+            //var findFactory = factories.Where(item => item.Id == unit.FactoryId);
+            //if (findFactory.Any())
+            //    return findFactory.First();
+            //else throw new NullReferenceException($"Factory id = {unit.FactoryId} dont exist");
+
+            var findFactory = from factory in factories where factory.Id == unit.FactoryId select factory;
+            if (findFactory.Any())
+                return findFactory.First();
+            else throw new NullReferenceException($"Factory id = {unit.FactoryId} dont exist");
         }
+
         /// <summary>
         /// Подсчитывает общую загруженность резервуаров
         /// </summary>
@@ -171,10 +230,17 @@ namespace Zadanie1
         /// <returns>общая загруженность резервуаров</returns>
         public static int GetTotalVolume(List<Tank> tanks)
         {
-            int totalVolume = 0;
-            foreach (Tank tank in tanks) { totalVolume += tank.Volume; }
-            return totalVolume;
+            #region OldCode
+            //int totalVolume = 0;
+            //foreach (Tank tank in tanks) { totalVolume += tank.Volume; }
+            //return totalVolume;
+            #endregion
+
+            //return tanks.Select(tank => tank.Volume).Sum();
+
+            return (from tank in tanks select tank.Volume).Sum();
         }
+
         /// <summary>
         /// Собирает названия резервуара, его установки и завода из коллекций
         /// </summary>
@@ -184,24 +250,37 @@ namespace Zadanie1
         /// <returns>названия резервуара, его установки и завода</returns>
         public static string GetTankNamesInfo(List<Tank> tanks, List<Unit> units, List<Factory> factories)
         {
+            #region OldCode
+            //StringBuilder result = new StringBuilder();
+            //foreach (Tank tank in tanks)
+            //{
+            //    result.Append(tank.Name + "\t");
+            //    foreach (Unit unit in units)
+            //    {
+            //        if (tank.UnitId == unit.Id)
+            //        {
+            //            result.Append(unit.Name + "\t");
+            //            foreach (Factory factory in factories)
+            //            {
+            //                if (unit.FactoryId == factory.Id) result.Append(factory.Name + "\n");
+            //            }
+            //        }
+            //    }
+            //}
+            //return result.ToString();
+            #endregion
+
             StringBuilder result = new StringBuilder();
-            foreach (Tank tank in tanks)
-            {
-                result.Append(tank.Name + "\t");
-                foreach (Unit unit in units)
-                {
-                    if (tank.UnitId == unit.Id)
-                    {
-                        result.Append(unit.Name + "\t");
-                        foreach (Factory factory in factories)
-                        {
-                            if (unit.FactoryId == factory.Id) result.Append(factory.Name + "\n");
-                        }
-                    }
-                }
-            }
+            tanks.ForEach(tank => { 
+                result.Append(tank.Name);
+                units.Where(unit => tank.UnitId == unit.Id).ToList().ForEach(unit => {
+                    result.Append(unit.Name);
+                    factories.Where(factory => factory.Id==unit.FactoryId).ToList().ForEach(factory => result.Append(factory.Name));
+                });
+            });
             return result.ToString();
         }
+
         /// <summary>
         /// Поиск резервуара по названию
         /// </summary>
@@ -210,12 +289,25 @@ namespace Zadanie1
         /// <returns>исомый резервуар</returns>
         public static Tank FindTankByName(List<Tank> tanks, string tankName)
         {
-            foreach(Tank tank in tanks) 
-            { 
-                if (tank.Name == tankName) return tank;
-            }
-            throw new NullReferenceException($"Tank {tankName} dont exist");
+            #region OldCode
+            //foreach (Tank tank in tanks) 
+            //{ 
+            //    if (tank.Name == tankName) return tank;
+            //}
+            //throw new NullReferenceException($"Tank {tankName} dont exist");
+            #endregion
+
+            //var findTank = tanks.Where(item => item.Name == tankName);
+            //if (findTank.Any())
+            //    return findTank.First();
+            //else throw new NullReferenceException($"Tank {tankName} dont exist");
+
+            var findTank = from tank in tanks where tank.Name == tankName select tank;
+            if (findTank.Any())
+                return findTank.First();
+            else throw new NullReferenceException($"Tank {tankName} dont exist");
         }
+
         /// <summary>
         /// Поиск установки по названию
         /// </summary>
@@ -224,12 +316,25 @@ namespace Zadanie1
         /// <returns>искомая установка</returns>
         public static Unit FindUnitByName(List<Unit> units, string unitName)
         {
-            foreach (Unit unit in units)
-            {
-                if (unit.Name == unitName) return unit;
-            }
-            throw new NullReferenceException($"Unit {unitName} dont exist");
+            #region OldCode
+            //foreach (Unit unit in units)
+            //{
+            //    if (unit.Name == unitName) return unit;
+            //}
+            //throw new NullReferenceException($"Unit {unitName} dont exist");
+            #endregion
+
+            //var findUnit = units.Where(item => item.Name == unitName);
+            //if (findUnit.Any())
+            //    return findUnit.First();
+            //else throw new NullReferenceException($"Unit {unitName} dont exist");
+
+            var findUnit = from unit in units where unit.Name == unitName select unit;
+            if (findUnit.Any())
+                return findUnit.First();
+            else throw new NullReferenceException($"Unit {unitName} dont exist");
         }
+
         /// <summary>
         /// Поиск завода по названию
         /// </summary>
@@ -238,59 +343,23 @@ namespace Zadanie1
         /// <returns>искомый завод</returns>
         public static Factory FindFactoryByName(List<Factory> factories, string factoryName)
         {
-            foreach (Factory factory in factories)
-            {
-                if (factory.Name == factoryName) return factory;
-            }
-            throw new NullReferenceException($"Factory {factoryName} dont exist");
-        }
-    }
+            #region OldCode
+            //foreach (Factory factory in factories)
+            //{
+            //    if (factory.Name == factoryName) return factory;
+            //}
+            //throw new NullReferenceException($"Factory {factoryName} dont exist");
+            #endregion
 
-    public class Factory
-    {
-        public int Id { get; }
-        public string Name { get; }
-        public string Description { get; }
+            //var findFactory = factories.Where(item => item.Name == factoryName);
+            //if (findFactory.Any())
+            //    return findFactory.First();
+            //else throw new NullReferenceException($"Factory {factoryName} dont exist");
 
-        public Factory(int id, string name, string description)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Description = description;
-        }
-    }
-    public class Unit
-    {
-        public int Id { get; }
-        public string Name { get; }
-        public string Description { get; }
-        public int FactoryId { get; }
-
-        public Unit(int id, string name, string description, int factoryId)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Description = description;
-            this.FactoryId = factoryId;
-        }
-    }
-    public class Tank
-    {
-        public int Id { get; }
-        public string Name { get; }
-        public string Description { get; }
-        public int Volume { get; }
-        public int MaxVolume { get; }
-        public int UnitId { get; }
-
-        public Tank(int id, string name, string description, int volume, int maxVolume, int unitId)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Description = description;
-            this.Volume = volume;
-            this.MaxVolume = maxVolume;
-            this.UnitId = unitId;
+            var findFactory = from factory in factories where factory.Name == factoryName select factory;
+            if (findFactory.Any())
+                return findFactory.First();
+            else throw new NullReferenceException($"Factory {factoryName} dont exist");
         }
     }
 }
