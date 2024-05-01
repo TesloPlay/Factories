@@ -21,93 +21,97 @@ namespace Zadanie1
             var units = ReadListFromFile<Unit>("UnitList");
             var factories = ReadListFromFile<Factory>("FactoryList");
 
+            ConsoleWriter.WriteListToConsole<Tank>(tanks);
+
+            
+
             #region Zad1
-            while (true)
-            {
-                // Главное меню
-                Console.Clear();
-                Console.WriteLine("1. Получить имя установки по имени резервуара\n" +
-                    "2. Получить имена всех резервуаров, имена их установок и фабрик\n" +
-                    "3. Получить общую сумму загрузки всех резервуаров\n" +
-                    "4. Найти объект по наименованию в колекции\n" +
-                    "5. Завершить работу программы");
-                switch (Console.ReadLine())
-                {
-                    // Получение имени установки по имени резервуара
-                    case "1":
-                        Console.Clear();
-                        Console.Write("Введите название резервуара: ");
-                        try
-                        {
-                            Console.WriteLine(FindUnit(units, tanks, Console.ReadLine()).Name);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
-                        break;
-                    // Получение имён всех резервуаров, установок и фабрик
-                    case "2":
-                        Console.Clear();
-                        Console.WriteLine("Резервуары:");
-                        Console.WriteLine(GetTankNamesInfo(tanks, units, factories));
-                        break;
-                    // Получение общей суммы загрузки всех резервуаров
-                    case "3":
-                        Console.Clear();
-                        Console.Write("Общая загруженность резервуаров: ");
-                        Console.WriteLine(GetTotalVolume(tanks));
-                        break;
-                    // Ищем объект по названию
-                    case "4":
-                        Console.Clear();
-                        Console.WriteLine("1. Найти резервуар\n" +
-                            "2. Найти установку\n" +
-                            "3. Найти завод");
-                        try
-                        {
-                            switch (Console.ReadLine())
-                            {
-                                // Ищем резеруар
-                                case "1":
-                                    Console.WriteLine("Введите название резервуара");
-                                    Tank tank = FindTankByName(tanks, Console.ReadLine());
-                                    Console.WriteLine($"Название: {tank.Name}\nОписание: {tank.Description}\nЗагруженность: {tank.Volume}\nМаксимальная загруженность: {tank.MaxVolume}");
-                                    break;
-                                // Ищем установку
-                                case "2":
-                                    Console.WriteLine("Введите название установки");
-                                    Unit unit = FindUnitByName(units, Console.ReadLine());
-                                    Console.WriteLine($"Название: {unit.Name}\nОписание: {unit.Description}");
-                                    break;
-                                // Ищем завод
-                                case "3":
-                                    Console.WriteLine("Введите название резервуара");
-                                    Factory factory = FindFactoryByName(factories, Console.ReadLine());
-                                    Console.WriteLine($"Название: {factory.Name}\nОписание: {factory.Description}");
-                                    break;
-                                default:
-                                    Console.WriteLine("Неверный ввод");
-                                    break;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+            //while (true)
+            //{
+            //    // Главное меню
+            //    Console.Clear();
+            //    Console.WriteLine("1. Получить имя установки по имени резервуара\n" +
+            //        "2. Получить имена всех резервуаров, имена их установок и фабрик\n" +
+            //        "3. Получить общую сумму загрузки всех резервуаров\n" +
+            //        "4. Найти объект по наименованию в колекции\n" +
+            //        "5. Завершить работу программы");
+            //    switch (Console.ReadLine())
+            //    {
+            //        // Получение имени установки по имени резервуара
+            //        case "1":
+            //            Console.Clear();
+            //            Console.Write("Введите название резервуара: ");
+            //            try
+            //            {
+            //                Console.WriteLine(FindUnit(units, tanks, Console.ReadLine()).Name);
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                Console.WriteLine(ex.Message);
+            //            }
+            //            break;
+            //        // Получение имён всех резервуаров, установок и фабрик
+            //        case "2":
+            //            Console.Clear();
+            //            Console.WriteLine("Резервуары:");
+            //            Console.WriteLine(GetTankNamesInfo(tanks, units, factories));
+            //            break;
+            //        // Получение общей суммы загрузки всех резервуаров
+            //        case "3":
+            //            Console.Clear();
+            //            Console.Write("Общая загруженность резервуаров: ");
+            //            Console.WriteLine(GetTotalVolume(tanks));
+            //            break;
+            //        // Ищем объект по названию
+            //        case "4":
+            //            Console.Clear();
+            //            Console.WriteLine("1. Найти резервуар\n" +
+            //                "2. Найти установку\n" +
+            //                "3. Найти завод");
+            //            try
+            //            {
+            //                switch (Console.ReadLine())
+            //                {
+            //                    // Ищем резеруар
+            //                    case "1":
+            //                        Console.WriteLine("Введите название резервуара");
+            //                        Tank tank = FindTankByName(tanks, Console.ReadLine());
+            //                        Console.WriteLine($"Название: {tank.Name}\nОписание: {tank.Description}\nЗагруженность: {tank.Volume}\nМаксимальная загруженность: {tank.MaxVolume}");
+            //                        break;
+            //                    // Ищем установку
+            //                    case "2":
+            //                        Console.WriteLine("Введите название установки");
+            //                        Unit unit = FindUnitByName(units, Console.ReadLine());
+            //                        Console.WriteLine($"Название: {unit.Name}\nОписание: {unit.Description}");
+            //                        break;
+            //                    // Ищем завод
+            //                    case "3":
+            //                        Console.WriteLine("Введите название резервуара");
+            //                        Factory factory = FindFactoryByName(factories, Console.ReadLine());
+            //                        Console.WriteLine($"Название: {factory.Name}\nОписание: {factory.Description}");
+            //                        break;
+            //                    default:
+            //                        Console.WriteLine("Неверный ввод");
+            //                        break;
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                Console.WriteLine(ex.Message);
+            //            }
 
-                        break;
-                    // Завершаем программу
-                    case "5":
-                        return;
-                        break;
-                    default:
-                        Console.WriteLine("Неверный ввод");
-                        break;
+            //            break;
+            //        // Завершаем программу
+            //        case "5":
+            //            return;
+            //            break;
+            //        default:
+            //            Console.WriteLine("Неверный ввод");
+            //            break;
 
-                }
-                Console.ReadLine();
-            }
+            //    }
+            //    Console.ReadLine();
+            //}
             #endregion
         }
         public static List<Tank> GetTanks()
@@ -146,16 +150,18 @@ namespace Zadanie1
         }
         public static List<T> ReadListFromFile<T>(string filename)
         {
-            List<T> values = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filename));
+            List<T>? values = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filename));
+            if (values == null)
+                throw new ArgumentNullException(nameof(values),$"Cant read file {filename}");
             return values;
         }
 
-        public static void WriteListToConsole<T>(List<T> values)
-        {
-            if (values.Count() > 0)
-                foreach (T item in values) Console.WriteLine(item.ToString());
-            else Console.WriteLine("Список пуст");
-        }
+        //public static void WriteListToConsole<T>(List<T> values)
+        //{
+        //    if (values.Count() > 0)
+        //        foreach (T item in values) Console.WriteLine(item.ToString());
+        //    else Console.WriteLine("Список пуст");
+        //}
 
 
         /// <summary>
