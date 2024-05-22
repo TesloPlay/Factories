@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FactoryConsoleProgramm
 {
-    public class Factory
+    public class Factory : IIndexedElement
     {
         public int Id { get; }
         public string Name { get; }

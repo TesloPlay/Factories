@@ -17,13 +17,105 @@ namespace Zadanie1
             //WriteListToFile<Unit>("UnitList.json", units);
             //WriteListToFile<Factory>("FactoryList.json", factories);
 
-            var tanks = ReadListFromFile<Tank>("TankList");
-            var units = ReadListFromFile<Unit>("UnitList");
-            var factories = ReadListFromFile<Factory>("FactoryList");
+            //var tanks = ReadListFromFile<Tank>("TankList");
+            //var units = ReadListFromFile<Unit>("UnitList");
+            //var factories = ReadListFromFile<Factory>("FactoryList");
 
-            ConsoleWriter.WriteListToConsole<Tank>(tanks);
+            //ConsoleInteraction.WriteListToConsole<Tank>(tanks);
 
-            
+            //ConsoleInteraction.Subscribe();
+            //ConsoleInteraction.ReadLine();
+            //ConsoleInteraction.Unsubscribe();
+            //ConsoleInteraction.ReadLine();
+
+            #region Незавершённый код
+            //var tanks = GetTanks();
+            //var units = GetUnits();
+            //var factories = GetFactories();
+            //string filename;
+
+            //Dictionary<int, string> mainMenu = new Dictionary<int, string>
+            //{
+            //    { 1, "Восстановить изначальные данные" },
+            //    { 2, "Считать данные из файлов" },
+            //    { 3, "Записать данные в файлы" },
+            //    { 4, "Вывести данные на экран" },
+            //    { 5, "Добавить новый элемент в файл" },
+            //    { 6, "Изменить элемент в файле" },
+            //    { 7, "Удалить элемент в файле" },
+            //    { 8, "Закончить работу программы" }
+            //};
+            //Dictionary<int, string> chooseMenu = new Dictionary<int, string>
+            //{
+            //    { 1, "Заводы" },
+            //    { 2, "Установки" },
+            //    { 3, "Резервуары" }
+            //};
+
+            //while (true)
+            //{
+            //    ConsoleInteraction.WriteMenuToConsole(mainMenu);
+            //    switch (ConsoleInteraction.ReadLine())
+            //    {
+            //        case "1":
+            //            tanks = GetTanks();
+            //            units = GetUnits();
+            //            factories = GetFactories();
+            //            break;
+            //        case "2":
+            //            try
+            //            {
+            //                var newTanks = ReadListFromFile<Tank>("TankList.json");
+            //                var newUnits = ReadListFromFile<Unit>("UnitList.json");
+            //                var newFactories = ReadListFromFile<Factory>("FactoryList.json");
+            //                tanks = newTanks;
+            //                units = newUnits;
+            //                factories = newFactories;
+            //                ConsoleInteraction.WriteLine("Данные успешно считаны");
+            //            } catch (Exception ex)
+            //            {
+            //                ConsoleInteraction.WriteLine($"Не удалось считать данные: {ex.Message}");
+            //            }
+            //            break;
+            //        case "3":
+            //            try
+            //            {
+            //                WriteListToFile("TankList.json", tanks);
+            //                WriteListToFile("UnitList.json", units);
+            //                WriteListToFile("FactoryList.json", factories);
+            //                ConsoleInteraction.WriteLine("Данные успешно записаны");
+            //            } catch (Exception ex )
+            //            {
+            //                ConsoleInteraction.WriteLine($"Не удалось записать данные: {ex.Message}");
+            //            }
+            //            break;
+            //        case "4":
+            //            ConsoleInteraction.WriteLine("Заводы:");
+            //            ConsoleInteraction.WriteListToConsole(factories);
+            //            ConsoleInteraction.WriteLine("Установки:");
+            //            ConsoleInteraction.WriteListToConsole(units);
+            //            ConsoleInteraction.WriteLine("Резервуары:");
+            //            ConsoleInteraction.WriteListToConsole(tanks);
+            //            break;
+            //        case "5":
+            //            ConsoleInteraction.WriteLine("Выберите список для работы:");
+            //            ConsoleInteraction.WriteMenuToConsole(chooseMenu);
+            //            switch (ConsoleInteraction.ReadLine())
+            //            {
+            //                case "1":
+
+            //                    break;
+            //                case "2":
+            //                    break;
+            //                case "3":
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //            break;
+            //    }
+            //}
+            #endregion
 
             #region Zad1
             //while (true)
@@ -35,7 +127,7 @@ namespace Zadanie1
             //        "3. Получить общую сумму загрузки всех резервуаров\n" +
             //        "4. Найти объект по наименованию в колекции\n" +
             //        "5. Завершить работу программы");
-            //    switch (Console.ReadLine())
+            //    switch (ConsoleInteraction.ReadLine())
             //    {
             //        // Получение имени установки по имени резервуара
             //        case "1":
@@ -43,7 +135,7 @@ namespace Zadanie1
             //            Console.Write("Введите название резервуара: ");
             //            try
             //            {
-            //                Console.WriteLine(FindUnit(units, tanks, Console.ReadLine()).Name);
+            //                Console.WriteLine($"Найденая установка: {FindUnit(units, tanks, ConsoleInteraction.ReadLine()).Name}");
             //            }
             //            catch (Exception ex)
             //            {
@@ -75,19 +167,19 @@ namespace Zadanie1
             //                    // Ищем резеруар
             //                    case "1":
             //                        Console.WriteLine("Введите название резервуара");
-            //                        Tank tank = FindTankByName(tanks, Console.ReadLine());
+            //                        Tank tank = FindTankByName(tanks, ConsoleInteraction.ReadLine());
             //                        Console.WriteLine($"Название: {tank.Name}\nОписание: {tank.Description}\nЗагруженность: {tank.Volume}\nМаксимальная загруженность: {tank.MaxVolume}");
             //                        break;
             //                    // Ищем установку
             //                    case "2":
             //                        Console.WriteLine("Введите название установки");
-            //                        Unit unit = FindUnitByName(units, Console.ReadLine());
+            //                        Unit unit = FindUnitByName(units, ConsoleInteraction.ReadLine());
             //                        Console.WriteLine($"Название: {unit.Name}\nОписание: {unit.Description}");
             //                        break;
             //                    // Ищем завод
             //                    case "3":
             //                        Console.WriteLine("Введите название резервуара");
-            //                        Factory factory = FindFactoryByName(factories, Console.ReadLine());
+            //                        Factory factory = FindFactoryByName(factories, ConsoleInteraction.ReadLine());
             //                        Console.WriteLine($"Название: {factory.Name}\nОписание: {factory.Description}");
             //                        break;
             //                    default:
@@ -104,7 +196,6 @@ namespace Zadanie1
             //        // Завершаем программу
             //        case "5":
             //            return;
-            //            break;
             //        default:
             //            Console.WriteLine("Неверный ввод");
             //            break;
@@ -114,9 +205,9 @@ namespace Zadanie1
             //}
             #endregion
         }
-        public static List<Tank> GetTanks()
+        public static IEnumerable<Tank> GetTanks()
         {
-            return new List<Tank> {
+            List<Tank> list = new List<Tank> {
                 new Tank(1, "Резервуар 1", "Надземный - вертикальный", 1500, 2000, 1),
                 new Tank(2, "Резервуар 2", "Надземный - горизонтальный", 2500, 3000, 1),
                 new Tank(3, "Дополнительный резервуар 24", "Надземный - горизонтальный", 3000, 3000, 2),
@@ -124,45 +215,61 @@ namespace Zadanie1
                 new Tank(5, "Резервуар 47", "Подземный - двустенный", 4000, 5000, 2),
                 new Tank(6, "Резервуар 256", "Подводный", 500, 500, 3)
             };
+            return list.AsEnumerable();
         }
-        public static List<Unit> GetUnits()
+        public static IEnumerable<Unit> GetUnits()
         {
-            return new List<Unit>
+            List<Unit> list = new List<Unit>
             {
                 new Unit(1, "ГФУ-2", "Газофракционирующая установка", 1),
                 new Unit(2, "АВТ-6", "Атмосферно-вакуумная трубчатка", 1),
                 new Unit(3, "АВТ-10", "Атмосферно-вакуумная трубчатка", 2)
             };
+            return list.AsEnumerable();
         }
-        public static List<Factory> GetFactories()
+        public static IEnumerable<Factory> GetFactories()
         {
-            return new List<Factory>
+            List<Factory> list = new List<Factory>
             {
                 new Factory(1, "НПЗ№1", "Первый нефтеперерабатывающий завод"),
                 new Factory(2, "НПЗ№2", "Второй нефтеперерабатывающий завод")
             };
+            return list.AsEnumerable();
         }
 
-        public static void WriteListToFile<T>(string filename, List<T> values)
+
+        public static void AddNewElementToJsonFile<T>(string filename, T element)
+        {
+            List<T> list = ReadListFromFile<T>(filename).ToList();
+            list.Add(element);
+            WriteListToFile<T>(filename, list);
+        }
+        public static void EditElementFromJsonFile<T>(string filename, T element, int id)
+        {
+            List<T> list = ReadListFromFile<T>(filename).ToList();
+            list[id] = element;
+            WriteListToFile<T>(filename, list);
+        }
+        public static void DeleteElementFromJsonFile<T>(string filename, T element)
+        {
+            List<T> list = ReadListFromFile<T>(filename).ToList();
+            list.Remove(element);
+            WriteListToFile<T>(filename, list);
+        }
+
+
+        public static void WriteListToFile<T>(string filename, IEnumerable<T> values)
         {
             string serializedList = JsonSerializer.Serialize(values);
             File.WriteAllText(filename, serializedList);
         }
-        public static List<T> ReadListFromFile<T>(string filename)
+        public static IEnumerable<T> ReadListFromFile<T>(string filename)
         {
-            List<T>? values = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filename));
+            IEnumerable<T>? values = JsonSerializer.Deserialize<IEnumerable<T>>(File.ReadAllText(filename));
             if (values == null)
                 throw new ArgumentNullException(nameof(values),$"Cant read file {filename}");
             return values;
         }
-
-        //public static void WriteListToConsole<T>(List<T> values)
-        //{
-        //    if (values.Count() > 0)
-        //        foreach (T item in values) Console.WriteLine(item.ToString());
-        //    else Console.WriteLine("Список пуст");
-        //}
-
 
         /// <summary>
         /// Поиск установки по названию резервуара
@@ -171,7 +278,7 @@ namespace Zadanie1
         /// <param name="tanks">коллекция резервуаров</param>
         /// <param name="tankName">название резервуара</param>
         /// <returns>искомая установка</returns>
-        public static Unit FindUnit(List<Unit> units, List<Tank> tanks, string tankName)
+        public static Unit FindUnit(IEnumerable<Unit> units, IEnumerable<Tank> tanks, string tankName)
         {
             #region OldCode
             //int? unitId = null;
@@ -199,7 +306,7 @@ namespace Zadanie1
             var findTanks = from tank in tanks where tank.Name == tankName select tank;
             if (findTanks.Any())
                 return (from unit in units where unit.Id == findTanks.ElementAt(0).UnitId select unit).ElementAt(0);
-            else throw new NullReferenceException($"Unit id = {findTanks.ElementAt(0).UnitId} dont exist");
+            else throw new NullReferenceException($"Unit with tank {tankName} dont exist");
         }
 
         /// <summary>
@@ -208,7 +315,7 @@ namespace Zadanie1
         /// <param name="factories">коллекция заводов</param>
         /// <param name="unit">установка</param>
         /// <returns>искомый завод</returns>
-        public static Factory FindFactory(List<Factory> factories, Unit unit)
+        public static Factory FindFactory(IEnumerable<Factory> factories, Unit unit)
         {
             #region  OldCode
             //foreach (Factory factory in factories)
@@ -234,7 +341,7 @@ namespace Zadanie1
         /// </summary>
         /// <param name="tanks">коллекция резервуаров</param>
         /// <returns>общая загруженность резервуаров</returns>
-        public static int GetTotalVolume(List<Tank> tanks)
+        public static int GetTotalVolume(IEnumerable<Tank> tanks)
         {
             #region OldCode
             //int totalVolume = 0;
@@ -254,7 +361,7 @@ namespace Zadanie1
         /// <param name="units">коллекция установок</param>
         /// <param name="factories">коллекция заводов</param>
         /// <returns>названия резервуара, его установки и завода</returns>
-        public static string GetTankNamesInfo(List<Tank> tanks, List<Unit> units, List<Factory> factories)
+        public static string GetTankNamesInfo(IEnumerable<Tank> tanks, IEnumerable<Unit> units, IEnumerable<Factory> factories)
         {
             #region OldCode
             //StringBuilder result = new StringBuilder();
@@ -277,7 +384,7 @@ namespace Zadanie1
             #endregion
 
             StringBuilder result = new StringBuilder();
-            tanks.ForEach(tank => { 
+            tanks.ToList().ForEach(tank => { 
                 result.Append(tank.Name + "\t");
                 units.Where(unit => tank.UnitId == unit.Id).ToList().ForEach(unit => {
                     result.Append(unit.Name + "\t");
@@ -293,7 +400,7 @@ namespace Zadanie1
         /// <param name="tanks">коллекция резервуаров</param>
         /// <param name="tankName">название искомого резервуара</param>
         /// <returns>исомый резервуар</returns>
-        public static Tank FindTankByName(List<Tank> tanks, string tankName)
+        public static Tank FindTankByName(IEnumerable<Tank> tanks, string tankName)
         {
             #region OldCode
             //foreach (Tank tank in tanks) 
@@ -320,7 +427,7 @@ namespace Zadanie1
         /// <param name="units">коллекция установок</param>
         /// <param name="unitName">название искомой установки</param>
         /// <returns>искомая установка</returns>
-        public static Unit FindUnitByName(List<Unit> units, string unitName)
+        public static Unit FindUnitByName(IEnumerable<Unit> units, string unitName)
         {
             #region OldCode
             //foreach (Unit unit in units)
@@ -347,7 +454,7 @@ namespace Zadanie1
         /// <param name="factories">коллекция заводов</param>
         /// <param name="factoryName">название искомого завода</param>
         /// <returns>искомый завод</returns>
-        public static Factory FindFactoryByName(List<Factory> factories, string factoryName)
+        public static Factory FindFactoryByName(IEnumerable<Factory> factories, string factoryName)
         {
             #region OldCode
             //foreach (Factory factory in factories)
